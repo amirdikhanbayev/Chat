@@ -13,6 +13,7 @@ public class Users {
     private Long id;
     private String username;
     private String password;
+    private Boolean online;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_chat_room",
