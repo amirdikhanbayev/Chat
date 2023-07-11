@@ -4,6 +4,8 @@ import com.example.demo.model.Users;
 import com.example.demo.service.get.GetService;
 import com.example.demo.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,43 +19,56 @@ public class UserController {
     @Autowired
     private GetService getService;
 
-    @PostMapping("/create")
-    public Users create(Users users){
-        return userService.create(users);
+    @GetMapping("/logout")
+    public String logout() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            SecurityContextHolder.getContext().setAuthentication(null);
+        }
+        getService.getCurrentUser().setOnline(false);
+        return "Logged out";
     }
 
-    @PatchMapping("/changeUsername")
-    public Users changeUsername(Long id, String username){
+    @PostMapping("/create")
+    public Users create(@RequestBody Users users){
+        return userService.create(users);
+    }//work
+    @PatchMapping ("/changeUsername/{id}/{username}")
+    public Users changeUsername(@PathVariable Long id, @PathVariable String username){//work
         return userService.changeUsername(id, username);
     }
 
-    @DeleteMapping  ("/delete")
-    public String delete(Long id){
+    @DeleteMapping  ("/delete/{id}" )
+    public String delete(@PathVariable Long id){//work
         return userService.deleteUser(id);
     }
 
-    @GetMapping("/findByUsername")
-    public Optional<Users> findByUsername(String username){
+    @GetMapping("/findByUsername/{username}")
+    public Optional<Users> findByUsername(@PathVariable String username){//work
         return userService.findByUsername(username);
     }
 
-    @GetMapping("/findById")
-    public Optional<Users> findById(Long id){
-        return  userService.findById(id);
-    }
 
-    @GetMapping("/ListAll")
-    public List<Users> listAll(){
-        return userService.listAll();
-    }
+
+
+
+//    @GetMapping("/findById/{id}")
+//    public Optional<Users> findById(@PathVariable Long id){//work
+//        return  userService.findById(id);
+//    }
+
+//    @GetMapping("/ListAll")
+//    public List<Users> listAll(){//work
+//        return userService.listAll();
+//    }
 
     @GetMapping("/me")
-    public Users me(){
+    public Users me(){//work
         return getService.getCurrentUser();
     }
 
-    @GetMapping("/allOnline")
-    public List<Users> listAllOnline(boolean online){
+    @GetMapping("/allOnline/{online}")
+    public List<Users> listAllOnline(@PathVariable boolean online){//work
         return userService.listAllOnline(online);
     }
 }

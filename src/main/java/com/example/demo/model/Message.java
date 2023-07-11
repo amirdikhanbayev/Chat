@@ -1,9 +1,9 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
+
 import lombok.Data;
 
-import java.sql.Timestamp;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Data

@@ -1,7 +1,8 @@
 CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
-    username TEXT not null ,
-    password TEXT not null
+                       id SERIAL PRIMARY KEY,
+                       username TEXT not null ,
+                       password TEXT not null,
+                       online BOOLEAN default false not null
 );
 
 CREATE INDEX user_username_idx ON users(username);

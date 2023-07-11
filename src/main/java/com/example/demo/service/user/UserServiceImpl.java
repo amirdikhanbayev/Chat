@@ -1,13 +1,13 @@
 package com.example.demo.service.user;
 
+import com.example.demo.model.Message;
 import com.example.demo.model.Users;
 import com.example.demo.repository.UsersRepository;
-import com.example.demo.service.user.UserService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +21,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Users create(Users user){
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setOnline(false);
         return usersRepository.save(user);
     }
     @Override
@@ -63,5 +64,6 @@ public class UserServiceImpl implements UserService {
     public List<Users> listAllOnline(boolean online){
         return usersRepository.findByOnline(online);
     }
+
 
 }

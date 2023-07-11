@@ -32,8 +32,9 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         sharedSecurityConfiguration(http);
         http.authorizeRequests()
-                .requestMatchers("/login*").permitAll()
-                .requestMatchers("/user*").permitAll()
+                .antMatchers("/login*").permitAll()
+                .antMatchers("/users*").permitAll()
+                .antMatchers("/users/create").permitAll()
                 .anyRequest().authenticated().and()
                 .formLogin(from ->
                         from.loginProcessingUrl("/login")

@@ -1,1 +1,0 @@
-ALTER TABLE users ADD online BOOLEAN DEFAULT False;
