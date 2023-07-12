@@ -15,21 +15,29 @@ public class MessageController {
     private MessageService messageService;
 
     @GetMapping("/sendNew/{recipient_username}/{content}/{name}")
-    public Message Send(@PathVariable String recipient_username,
+    public Message sendWithNewChat(@PathVariable String recipient_username,
                         @PathVariable String content,
                         @PathVariable String name){
-        return messageService.send(recipient_username,content,name);
+        return messageService.sendWithNewChat(recipient_username,content,name);
     }
 
-//    @GetMapping("/getMyMesseges")
-//    public List<Message> getMM(){
-//        return (List<Message>) messageService.getMyMessages();
-//    }
+    @GetMapping("/sendToChat/{chat_name}/{content}")
+    public String sendToExistChat(@PathVariable String chat_name,@PathVariable String content){
+        return messageService.sendToChat(chat_name,content);
+    }
+
+    @GetMapping("/getMyMesseges")
+    public List<Message> getMM(){
+        return messageService.getMyMessages();
+    }
 
     @DeleteMapping("/delete/{id}")
-    public String delet(@PathVariable Long id){
+    public String delete(@PathVariable Long id){
         messageService.delete(id);
         return "Message deleted";
     }
+
+
+
 
 }

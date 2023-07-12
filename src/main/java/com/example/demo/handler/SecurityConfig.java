@@ -31,7 +31,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         sharedSecurityConfiguration(http);
-        http.authorizeRequests()
+        http
+                .authorizeRequests()
                 .antMatchers("/login*").permitAll()
                 .antMatchers("/users*").permitAll()
                 .antMatchers("/users/create").permitAll()
@@ -41,7 +42,12 @@ public class SecurityConfig {
                                 .usernameParameter("login")
                                 .passwordParameter("password")
                                 .failureHandler(customAuthenticationFailureHandler)
-                                .successHandler(customAuthenticationSuccessHandler));
+                                .successHandler(customAuthenticationSuccessHandler))
+                .logout()
+                .logoutUrl("/logout")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .logoutSuccessUrl("/login");
         return http.build();
     }
     @Bean

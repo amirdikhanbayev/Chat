@@ -30,24 +30,42 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public Message send(String recipient_username, String content, String name){
-        Message message = new Message();
-        message.setContent(content);
-        message.setDatetime(LocalDateTime.now());
-        Users users = getService.getCurrentUser();
-        users.setOnline(true);
-        message.setUser(users);
-        message.setUser1(userService.findByUsername(recipient_username)
-                .orElseThrow(()-> new EntityNotFoundException(name)));
-        message.setChat_room(chatRoomService.create(name));
+    public Message sendWithNewChat(String recipient_username, String content, String name){
+        Message message = send(content, recipient_username);
+        Users recipient = userService.findByUsername(recipient_username)
+                .orElseThrow(()-> new EntityNotFoundException());
+        message.setChatRoomId(chatRoomService.create(name, recipient));
         return messageRepository.save(message);
     }
 
-//    @Override
-//    public List<Message> getMyMessages(){
-//       Long id = getService.getCurrentUser().getId();
-//       return (List<Message>) messageRepository.getMessagesByIdIs(id);
-//    }
+    @Override
+    public String sendToChat(String chat_name, String content){
+        List<Users> users = chatRoomService.ListUserInChat(chat_name);
+        for (int i = 0; i < users.size(); i++){
+            System.out.println("dfriemifwemfigeirmfiewmfrem");
+            String username = users.get(i).getUsername();
+            send(content, username);
+        }
+        return "Messages sanded";
+    }
+    @Override
+    public Message send(String content, String recipient_username){
+        Message message = new Message();
+        message.setSenderId(getService.getCurrentUser());
+        Users recipient = userService.findByUsername(recipient_username)
+                .orElseThrow(()-> new EntityNotFoundException());
+        message.setRecipientId(recipient);
+        getService.getCurrentUser().setOnline(true);
+        message.setContent(content);
+        message.setDatetime(LocalDateTime.now());
+        return messageRepository.save(message);
+    }
+
+    @Override
+    public List<Message> getMyMessages(){
+       Long id = getService.getCurrentUser().getId();
+       return messageRepository.findMessageByRecipientIdId(id);
+    }
 
 
 }

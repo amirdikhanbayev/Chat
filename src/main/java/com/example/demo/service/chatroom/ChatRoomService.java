@@ -1,13 +1,18 @@
 package com.example.demo.service.chatroom;
 
-import com.example.demo.model.Chat_room;
+import com.example.demo.model.ChatRoom;
+import com.example.demo.model.Users;
+
+import java.util.List;
 
 public interface ChatRoomService {
 
-    Chat_room create(String name);
+    ChatRoom create(String name, Users user);
 
     String delete(Long id);
-    Chat_room findByName(String name);
+    ChatRoom findByName(String name);
 
-    Chat_room changeName(String name);
+    ChatRoom changeName(String name);
+
+    List<Users> ListUserInChat(String chatName);
 }

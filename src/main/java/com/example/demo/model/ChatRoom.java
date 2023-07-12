@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 @Entity
-public class Chat_room {
+public class ChatRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

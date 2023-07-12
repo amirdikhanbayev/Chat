@@ -27,7 +27,7 @@ public class UserController {
         }
         getService.getCurrentUser().setOnline(false);
         return "Logged out";
-    }
+    }//work
 
     @PostMapping("/create")
     public Users create(@RequestBody Users users){
@@ -47,10 +47,6 @@ public class UserController {
     public Optional<Users> findByUsername(@PathVariable String username){//work
         return userService.findByUsername(username);
     }
-
-
-
-
 
 //    @GetMapping("/findById/{id}")
 //    public Optional<Users> findById(@PathVariable Long id){//work

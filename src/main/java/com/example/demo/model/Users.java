@@ -19,5 +19,5 @@ public class Users {
     @JoinTable(name = "user_chat_room",
     joinColumns = {@JoinColumn(name = "user_id")},
     inverseJoinColumns = {@JoinColumn(name = "chat_room_id")})
-    private List<Chat_room> chatRooms;
+    private List<ChatRoom> chatRooms;
 }

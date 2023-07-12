@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Chat_room;
+import com.example.demo.model.ChatRoom;
 import com.example.demo.service.chatroom.ChatRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/chatroom")
-public class Chat_roomController {
+public class ChatRoomController {
     @Autowired
     private ChatRoomService chatRoomService;
     @GetMapping("/delete/{id}")
@@ -20,7 +20,7 @@ public class Chat_roomController {
     }
 
     @GetMapping("changeName/{name}")
-    public Chat_room changeName(@PathVariable String name){
+    public ChatRoom changeName(@PathVariable String name){
         return chatRoomService.changeName(name);
     }
 }

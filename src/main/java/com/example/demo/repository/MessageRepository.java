@@ -15,6 +15,11 @@ import java.util.List;
 @Transactional
 public interface MessageRepository extends JpaRepository<Message, Long> {
 //    @Modifying
-//    @Query("SELECT  FROM Message m WHERE m.user1 = :id")
-//    public List<Message> getMessagesByIdIs(@Param("id") Long id);
+//    @Query("select from message m where m.User1.id = :id")
+//    List<Message> getMessagesByIdIs(@Param("id") Long id);
+//    @Modifying
+//    @Query(value = "select from message m where m.recipient_id = :id", nativeQuery = true)
+//    List<Message> getMessagesByIdIs(@Param("id") Long id);
+
+        List<Message> findMessageByRecipientIdId(Long userId);
 }
