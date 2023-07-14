@@ -1,5 +1,6 @@
 package com.example.demo.service.user;
 
+import com.example.demo.model.ChatRoom;
 import com.example.demo.model.Users;
 
 import java.util.List;
@@ -24,4 +25,10 @@ public interface UserService {
     void offline(Long id);
 
     List<Users> listAllOnline(boolean online);
+
+
+    String joinToChatRoom(String chatRoomName, String username);
+
+
+    List<Users> UsersInChat(ChatRoom chatRoom);
 }

@@ -3,19 +3,15 @@ package com.example.demo.controller;
 import com.example.demo.model.ChatRoom;
 import com.example.demo.service.chatroom.ChatRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/chatroom")
 public class ChatRoomController {
     @Autowired
     private ChatRoomService chatRoomService;
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public String delete(@PathVariable Long id){
-
         return chatRoomService.delete(id);
     }
 

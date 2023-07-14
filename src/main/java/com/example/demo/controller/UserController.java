@@ -67,4 +67,9 @@ public class UserController {
     public List<Users> listAllOnline(@PathVariable boolean online){//work
         return userService.listAllOnline(online);
     }
+
+    @GetMapping("/join/{chatRoomName}/{username}")
+    public String join(String chatRoomName, String username){
+        return userService.joinToChatRoom(chatRoomName, username);
+    }
 }

@@ -14,5 +14,4 @@ public interface ChatRoomService {
 
     ChatRoom changeName(String name);
 
-    List<Users> ListUserInChat(String chatName);
 }

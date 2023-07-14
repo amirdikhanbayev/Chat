@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Message;
+import com.example.demo.dto.MessageDto;
 import com.example.demo.service.message.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +15,7 @@ public class MessageController {
     private MessageService messageService;
 
     @GetMapping("/sendNew/{recipient_username}/{content}/{name}")
-    public Message sendWithNewChat(@PathVariable String recipient_username,
+    public MessageDto sendWithNewChat(@PathVariable String recipient_username,
                         @PathVariable String content,
                         @PathVariable String name){
         return messageService.sendWithNewChat(recipient_username,content,name);
@@ -27,8 +27,9 @@ public class MessageController {
     }
 
     @GetMapping("/getMyMesseges")
-    public List<Message> getMM(){
-        return messageService.getMyMessages();
+    public List<MessageDto> getMM(){
+        List<MessageDto> messages = messageService.getMyMessages();
+        return messages;
     }
 
     @DeleteMapping("/delete/{id}")
@@ -36,8 +37,6 @@ public class MessageController {
         messageService.delete(id);
         return "Message deleted";
     }
-
-
 
 
 }

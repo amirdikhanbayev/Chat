@@ -1,13 +1,16 @@
 package com.example.demo.service.user;
 
-import com.example.demo.model.Message;
+import com.example.demo.model.ChatRoom;
 import com.example.demo.model.Users;
 import com.example.demo.repository.UsersRepository;
+import com.example.demo.service.chatroom.ChatRoomService;
+import com.example.demo.service.get.GetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +20,10 @@ public class UserServiceImpl implements UserService {
     private UsersRepository usersRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private ChatRoomService chatRoomService;
+    @Autowired
+    private GetService getService;
 
     @Override
     public Users create(Users user){
@@ -65,5 +72,23 @@ public class UserServiceImpl implements UserService {
         return usersRepository.findByOnline(online);
     }
 
+    @Override
+    public String joinToChatRoom(String chatRoomName, String username){
+       ChatRoom chatRoom = chatRoomService.findByName(chatRoomName);
+       Users users = usersRepository.findByUsername(username)
+               .orElseThrow(()-> new EntityNotFoundException());
+       users.getChatRooms().add(chatRoom);
+       usersRepository.save(users);
+       return "Added";
+    }
+    @Override
+    public List<Users> UsersInChat(ChatRoom chatRoom){
+        List<Users> users = usersRepository.findUsersByChatRooms(chatRoom);
+//        for (int i = 0; i < users.size(); i++) {
+//            users.add(usersRepository.findById(users_id.get(i))
+//                    .orElseThrow(()-> new EntityNotFoundException()));
+//        }
+        return users;
+    };
 
 }

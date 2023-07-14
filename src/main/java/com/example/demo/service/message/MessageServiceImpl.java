@@ -1,5 +1,8 @@
 package com.example.demo.service.message;
 
+import com.example.demo.dto.MessageDto;
+import com.example.demo.dto.MessageDtoMappingService;
+import com.example.demo.model.ChatRoom;
 import com.example.demo.model.Message;
 import com.example.demo.model.Users;
 import com.example.demo.repository.MessageRepository;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,6 +27,8 @@ public class MessageServiceImpl implements MessageService {
     private GetService getService;
     @Autowired
     private ChatRoomService chatRoomService;
+    @Autowired
+    private MessageDtoMappingService messageDtoMappingService;
 
     @Override
     public void delete(Long id){
@@ -30,19 +36,22 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public Message sendWithNewChat(String recipient_username, String content, String name){
+    public MessageDto sendWithNewChat(String recipient_username, String content, String name){
         Message message = send(content, recipient_username);
         Users recipient = userService.findByUsername(recipient_username)
                 .orElseThrow(()-> new EntityNotFoundException());
-        message.setChatRoomId(chatRoomService.create(name, recipient));
-        return messageRepository.save(message);
+        ChatRoom chatRoom = chatRoomService.create(name, recipient);
+        message.setChatRoom(chatRoom) ;
+        recipient.getChatRooms().add(chatRoom);
+        messageRepository.save(message);
+        return messageDtoMappingService.MessageToDto(message);
     }
 
     @Override
     public String sendToChat(String chat_name, String content){
-        List<Users> users = chatRoomService.ListUserInChat(chat_name);
+        List<Users> users = userService.UsersInChat(
+                chatRoomService.findByName(chat_name));
         for (int i = 0; i < users.size(); i++){
-            System.out.println("dfriemifwemfigeirmfiewmfrem");
             String username = users.get(i).getUsername();
             send(content, username);
         }
@@ -51,20 +60,24 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public Message send(String content, String recipient_username){
         Message message = new Message();
-        message.setSenderId(getService.getCurrentUser());
+        message.setSender(getService.getCurrentUser());
         Users recipient = userService.findByUsername(recipient_username)
                 .orElseThrow(()-> new EntityNotFoundException());
-        message.setRecipientId(recipient);
+        message.setRecipient(recipient);
         getService.getCurrentUser().setOnline(true);
         message.setContent(content);
         message.setDatetime(LocalDateTime.now());
-        return messageRepository.save(message);
+        return message;
     }
 
     @Override
-    public List<Message> getMyMessages(){
-       Long id = getService.getCurrentUser().getId();
-       return messageRepository.findMessageByRecipientIdId(id);
+    public List<MessageDto> getMyMessages(){
+        List<MessageDto> listDto = new ArrayList<>();
+        List<Message> listMessages = messageRepository.findAllByRecipientId(getService.getCurrentUser().getId());
+        for (int i = 0; i < listMessages.size(); i++) {
+          listDto.add(messageDtoMappingService.MessageToDto(listMessages.get(i)));
+        }
+        return listDto;
     }
 
 

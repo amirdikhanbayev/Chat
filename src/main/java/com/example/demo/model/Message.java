@@ -1,8 +1,8 @@
 package com.example.demo.model;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.ToString;
+
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,15 +13,17 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "chat_room_id")
-    private ChatRoom chatRoomId;
-    @OneToOne(fetch = FetchType.LAZY)
+    private ChatRoom chatRoom;
+    @ManyToOne
     @JoinColumn(name = "sender_id")
-    private Users senderId;
-    @OneToOne(fetch = FetchType.LAZY)
+    private Users sender;
+    @ManyToOne
     @JoinColumn(name = "recipient_id")
-    private Users recipientId;
+    private Users recipient;
+
     private String content;
     private LocalDateTime datetime;
+
 }
