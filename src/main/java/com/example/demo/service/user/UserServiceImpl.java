@@ -5,12 +5,12 @@ import com.example.demo.model.Users;
 import com.example.demo.repository.UsersRepository;
 import com.example.demo.service.chatroom.ChatRoomService;
 import com.example.demo.service.get.GetService;
+import com.example.demo.service.role.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +24,8 @@ public class UserServiceImpl implements UserService {
     private ChatRoomService chatRoomService;
     @Autowired
     private GetService getService;
+    @Autowired
+    private RoleService roleService;
 
     @Override
     public Users create(Users user){
@@ -84,5 +86,13 @@ public class UserServiceImpl implements UserService {
         List<Users> users = usersRepository.findUsersByChatRooms(chatRoom);
         return users;
     };
+
+    @Override
+    public Users addRoleToUser(String username, String roleName){
+        Users users = usersRepository.findByUsername(username)
+                .orElseThrow(()-> new EntityNotFoundException());
+        users.getRoles().add(roleService.findRoleText(roleName));
+        return usersRepository.save(users);
+    }
 
 }

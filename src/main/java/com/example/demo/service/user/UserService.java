@@ -31,4 +31,6 @@ public interface UserService {
 
 
     List<Users> UsersInChat(ChatRoom chatRoom);
+
+    Users addRoleToUser(String username, String roleName);
 }

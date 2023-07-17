@@ -37,6 +37,7 @@ public class SecurityConfig {
                 .antMatchers("/users*").permitAll()
                 .antMatchers("/users/create").permitAll()
                 .antMatchers("/users/delete*").permitAll()
+                .antMatchers("/users/addRole/{username}/{roleName}").permitAll()
                 .anyRequest().authenticated().and()
                 .formLogin(from ->
                         from.loginProcessingUrl("/login")

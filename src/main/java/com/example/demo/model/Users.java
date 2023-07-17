@@ -22,7 +22,11 @@ public class Users {
     joinColumns = {@JoinColumn(name = "user_id")}
             , inverseJoinColumns = {@JoinColumn(name = "chat_room_id")})
     private List<ChatRoom> chatRooms;
-//    @ManyToMany(mappedBy = "users")
-//    private List<ChatRoom> chatRooms;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "users_rols",
+    joinColumns = {@JoinColumn(name = "user_id")}
+            , inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    private List<Role> roles;
 
 }

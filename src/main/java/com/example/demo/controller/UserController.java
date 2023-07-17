@@ -72,4 +72,10 @@ public class UserController {
     public Users join(@PathVariable String chatRoomName){
         return userService.joinToChatRoom(chatRoomName);
     }
+
+    @GetMapping("/addRole/{username}/{roleName}")
+    public Users addRole(@PathVariable String username,
+                         @PathVariable String roleName){
+        return userService.addRoleToUser(username,roleName);
+    }
 }
