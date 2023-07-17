@@ -69,7 +69,7 @@ public class UserController {
     }
 
     @GetMapping("/join/{chatRoomName}")
-    public String join(String chatRoomName){
+    public Users join(@PathVariable String chatRoomName){
         return userService.joinToChatRoom(chatRoomName);
     }
 }

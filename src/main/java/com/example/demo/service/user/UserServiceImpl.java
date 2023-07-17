@@ -73,12 +73,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String joinToChatRoom(String chatRoomName){
+    public Users joinToChatRoom(String chatRoomName){
        ChatRoom chatRoom = chatRoomService.findByName(chatRoomName);
        Users users = getService.getCurrentUser();
        users.getChatRooms().add(chatRoom);
-       usersRepository.save(users);
-       return "Added";
+       return usersRepository.save(users);
     }
     @Override
     public List<Users> UsersInChat(ChatRoom chatRoom){
