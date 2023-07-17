@@ -73,10 +73,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String joinToChatRoom(String chatRoomName, String username){
+    public String joinToChatRoom(String chatRoomName){
        ChatRoom chatRoom = chatRoomService.findByName(chatRoomName);
-       Users users = usersRepository.findByUsername(username)
-               .orElseThrow(()-> new EntityNotFoundException());
+       Users users = getService.getCurrentUser();
        users.getChatRooms().add(chatRoom);
        usersRepository.save(users);
        return "Added";
@@ -84,10 +83,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<Users> UsersInChat(ChatRoom chatRoom){
         List<Users> users = usersRepository.findUsersByChatRooms(chatRoom);
-//        for (int i = 0; i < users.size(); i++) {
-//            users.add(usersRepository.findById(users_id.get(i))
-//                    .orElseThrow(()-> new EntityNotFoundException()));
-//        }
         return users;
     };
 

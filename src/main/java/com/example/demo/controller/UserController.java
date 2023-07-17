@@ -48,15 +48,15 @@ public class UserController {
         return userService.findByUsername(username);
     }
 
-//    @GetMapping("/findById/{id}")
-//    public Optional<Users> findById(@PathVariable Long id){//work
-//        return  userService.findById(id);
-//    }
+    @GetMapping("/findById/{id}")
+    public Optional<Users> findById(@PathVariable Long id){//work
+        return  userService.findById(id);
+    }
 
-//    @GetMapping("/ListAll")
-//    public List<Users> listAll(){//work
-//        return userService.listAll();
-//    }
+    @GetMapping("/ListAll")
+    public List<Users> listAll(){//work
+        return userService.listAll();
+    }
 
     @GetMapping("/me")
     public Users me(){//work
@@ -68,8 +68,8 @@ public class UserController {
         return userService.listAllOnline(online);
     }
 
-    @GetMapping("/join/{chatRoomName}/{username}")
-    public String join(String chatRoomName, String username){
-        return userService.joinToChatRoom(chatRoomName, username);
+    @GetMapping("/join/{chatRoomName}")
+    public String join(String chatRoomName){
+        return userService.joinToChatRoom(chatRoomName);
     }
 }

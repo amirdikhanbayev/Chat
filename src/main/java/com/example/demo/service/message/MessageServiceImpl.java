@@ -53,7 +53,10 @@ public class MessageServiceImpl implements MessageService {
                 chatRoomService.findByName(chat_name));
         for (int i = 0; i < users.size(); i++){
             String username = users.get(i).getUsername();
-            send(content, username);
+            Message message = new Message();
+            message = send(content, username);
+            message.setChatRoom(chatRoomService.findByName(chat_name));
+            messageRepository.save(message);
         }
         return "Messages sanded";
     }
@@ -79,6 +82,7 @@ public class MessageServiceImpl implements MessageService {
         }
         return listDto;
     }
+
 
 
 }
