@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Data
@@ -27,6 +29,6 @@ public class Users {
     @JoinTable(name = "users_rols",
     joinColumns = {@JoinColumn(name = "user_id")}
             , inverseJoinColumns = {@JoinColumn(name = "role_id")})
-    private List<Role> roles;
+    private Collection<Role> roles;
 
 }

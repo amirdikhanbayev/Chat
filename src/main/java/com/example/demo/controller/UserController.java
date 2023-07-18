@@ -19,15 +19,15 @@ public class UserController {
     @Autowired
     private GetService getService;
 
-    @GetMapping("/logout")
-    public String logout() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null) {
-            SecurityContextHolder.getContext().setAuthentication(null);
-        }
-        getService.getCurrentUser().setOnline(false);
-        return "Logged out";
-    }//work
+//    @GetMapping("/logout")
+//    public String logout() {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (authentication != null) {
+//            SecurityContextHolder.getContext().setAuthentication(null);
+//        }
+//        getService.getCurrentUser().setOnline(false);
+//        return "Logged out";
+//    }//work
 
     @PostMapping("/create")
     public Users create(@RequestBody Users users){

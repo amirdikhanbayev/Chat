@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 
 @Service("userDetailsService")
@@ -18,7 +20,11 @@ public class UserDetailServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException{
         com.example.demo.model.Users users =usersRepository.findByUsername(login).orElseThrow(
                 ()->new UsernameNotFoundException("User not found"));
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        users.getRoles().forEach(role -> {
+            authorities.add(new SimpleGrantedAuthority(role.getRole()));
+        });
         return new org.springframework.security.core.userdetails.User(users.getUsername(), users.getPassword(),
-                Collections.singletonList(new SimpleGrantedAuthority("USER")));
+              authorities);
     }
 }
