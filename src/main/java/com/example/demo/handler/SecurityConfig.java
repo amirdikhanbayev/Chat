@@ -42,15 +42,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users/create/**").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/users/delete/**").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/users/ListALL").hasAuthority("ROLE_ADMIN")
-                .antMatchers("/users/addRole/**").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/users/addRole").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/role/**").hasAuthority("ROLE_ADMIN")
-                .antMatchers("/users/changeUsername/**").permitAll()
-                .antMatchers("/users/findById/**").permitAll()
-                .antMatchers("/users/findByUsername/**").permitAll()
-                .antMatchers("/users/allOnline/**").permitAll()
-                .antMatchers("/users/join/**").permitAll()
-                .antMatchers("/chatroom/**").permitAll()
-                .antMatchers("/message/**").hasAuthority("ROLE_ADMIN");
+                .antMatchers("/message/**").permitAll()
+                .antMatchers("/users/changeUsername").permitAll()
+                .antMatchers("/users/findById").permitAll()
+                .antMatchers("/users/findByUsername").permitAll()
+                .antMatchers("/users/allOnline").permitAll()
+                .antMatchers("/users/join").permitAll()
+                .antMatchers("/chatroom/**").permitAll();
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
