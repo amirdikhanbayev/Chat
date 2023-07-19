@@ -10,7 +10,6 @@ import com.example.demo.service.get.GetService;
 import com.example.demo.service.user.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
@@ -82,7 +81,7 @@ public class UserController {
     }
 
     @GetMapping("/join/{chatRoomName}")
-    public Users join(@PathVariable String chatRoomName){
+    public Optional<Users> join(@PathVariable String chatRoomName){
         return userService.joinToChatRoom(chatRoomName);
     }
 

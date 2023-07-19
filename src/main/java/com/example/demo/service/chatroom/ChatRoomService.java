@@ -3,8 +3,6 @@ package com.example.demo.service.chatroom;
 import com.example.demo.model.ChatRoom;
 import com.example.demo.model.Users;
 
-import java.util.List;
-
 public interface ChatRoomService {
 
     ChatRoom create(String name, Users user);
