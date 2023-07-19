@@ -7,17 +7,10 @@ import com.example.demo.service.chatroom.ChatRoomService;
 import com.example.demo.service.get.GetService;
 import com.example.demo.service.role.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -82,11 +75,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Users joinToChatRoom(String chatRoomName){
-       ChatRoom chatRoom = chatRoomService.findByName(chatRoomName);
-       Users users = getService.getCurrentUser();
-       users.getChatRooms().add(chatRoom);
-       return usersRepository.save(users);
+    public Optional<Users> joinToChatRoom(String chatRoomName){
+       Optional<ChatRoom> chatRoom = Optional.ofNullable(chatRoomService.findByName(chatRoomName));
+       if(chatRoom.isPresent()){
+           Users users = getService.getCurrentUser();
+           users.getChatRooms().add(chatRoom.orElseThrow(()-> new EntityNotFoundException()));
+           return Optional.of(usersRepository.save(users));
+       } else throw new RuntimeException("Not founded");
     }
     @Override
     public List<Users> UsersInChat(ChatRoom chatRoom){
@@ -98,7 +93,7 @@ public class UserServiceImpl implements UserService {
     public Users addRoleToUser(String username, String roleName){
         Users users = usersRepository.findByUsername(username)
                 .orElseThrow(()-> new EntityNotFoundException());
-        users.getRoles().add(roleService.findRoleText(roleName));
+        users.getRoles().add(roleService.findRoleText(roleName).orElseThrow(()-> new EntityNotFoundException("Not found")));
         return usersRepository.save(users);
     }
 

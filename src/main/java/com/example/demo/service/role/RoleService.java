@@ -2,8 +2,10 @@ package com.example.demo.service.role;
 
 import com.example.demo.model.Role;
 
+import java.util.Optional;
+
 public interface RoleService {
-    Role findRoleText(String role);
+    Optional<Role> findRoleText(String role);
 
     Role create(Role role);
 

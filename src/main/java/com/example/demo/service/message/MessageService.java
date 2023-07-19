@@ -3,7 +3,6 @@ package com.example.demo.service.message;
 import com.example.demo.dto.MessageDto;
 import com.example.demo.model.Message;
 
-
 import java.util.List;
 
 
@@ -16,7 +15,7 @@ public interface MessageService {
 
     String sendToChat(String chat_name, String content);
 
-    Message send(String content, String recipient_username);
+    Message creatMessage(String content, String recipient_username);
 
     List<MessageDto> getMyMessages();
 }

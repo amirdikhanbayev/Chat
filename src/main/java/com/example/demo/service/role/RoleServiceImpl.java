@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.Optional;
 
 @Service
 public class RoleServiceImpl implements RoleService{
@@ -13,8 +14,8 @@ public class RoleServiceImpl implements RoleService{
     private RoleRepository roleRepository;
 
     @Override
-    public Role findRoleText(String role){
-        return roleRepository.findAllByRole(role);
+    public Optional<Role> findRoleText(String role){
+        return Optional.ofNullable(roleRepository.findAllByRole(role));
     }
     @Override
     public Role create(Role role){
@@ -25,7 +26,7 @@ public class RoleServiceImpl implements RoleService{
         Role role = roleRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException());
         role.setRole(text);
-        return roleRepository.save(role);
+        return (roleRepository.save(role));
     }
     @Override
     public String delete(Long id){
