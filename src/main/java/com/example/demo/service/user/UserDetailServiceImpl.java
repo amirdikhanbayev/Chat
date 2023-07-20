@@ -26,35 +26,6 @@ public class UserDetailServiceImpl implements UserDetailsService {
         });
         return new org.springframework.security.core.userdetails.User(user.get().getUsername(), user.get().getPassword()
                 , authorities);
-//        com.example.demo.model.Users users =usersRepository.findByUsername(login).orElseThrow(
-//                ()->new UsernameNotFoundException("User not found"));
-//        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-//        users.getRoles().forEach(role -> {
-//            authorities.add(new SimpleGrantedAuthority(role.getRole()));
-//        });
-//        return new org.springframework.security.core.userdetails.User(users.getUsername(), users.getPassword(),
-//              authorities);
-//                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if (authentication == null || !authentication.isAuthenticated()) {
-//            throw new UsernameNotFoundException("User not found");
-//        }
-//        String currentUserUsername = authentication.getName();
-//        if (!login.equals(currentUserUsername)) {
-//            throw new UsernameNotFoundException("User not found");
-//        }
-//        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-//        return new org.springframework.security.core.userdetails.User(
-//                login,
-//                "",
-//                authorities
-//        );
-//        com.example.demo.model.Users users = usersRepository.findByUsername(login)
-//                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-//
-//        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-//        users.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getRole())));
-//
-//        return new org.springframework.security.core.userdetails.User(users.getUsername(), users.getPassword(), authorities);
 
     }
     }
