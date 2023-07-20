@@ -1,13 +1,13 @@
 package com.example.demo.service.message;
 
 import com.example.demo.dto.MessageDto;
-import com.example.demo.dto.MessageDtoMappingService;
 import com.example.demo.model.ChatRoom;
 import com.example.demo.model.Message;
 import com.example.demo.model.Users;
 import com.example.demo.repository.MessageRepository;
 import com.example.demo.service.chatroom.ChatRoomService;
 import com.example.demo.service.get.GetService;
+import com.example.demo.service.messagedto.MessageDtoMappingService;
 import com.example.demo.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

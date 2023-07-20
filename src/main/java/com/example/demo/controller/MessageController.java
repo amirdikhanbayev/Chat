@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.MessageDto;
 import com.example.demo.service.message.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,6 +34,7 @@ public class MessageController {
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public String delete(@PathVariable Long id){
         messageService.delete(id);
         return "Message deleted";

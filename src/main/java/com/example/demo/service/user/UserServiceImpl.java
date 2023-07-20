@@ -7,6 +7,7 @@ import com.example.demo.service.chatroom.ChatRoomService;
 import com.example.demo.service.get.GetService;
 import com.example.demo.service.role.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,7 @@ public class UserServiceImpl implements UserService {
     private GetService getService;
     @Autowired
     private RoleService roleService;
+
 
     @Override
     public Users create(Users user){
@@ -76,13 +78,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<Users> joinToChatRoom(String chatRoomName){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Users users = usersRepository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException());
        Optional<ChatRoom> chatRoom = Optional.ofNullable(chatRoomService.findByName(chatRoomName));
        if(chatRoom.isPresent()){
-           Users users = getService.getCurrentUser();
            users.getChatRooms().add(chatRoom.orElseThrow(()-> new EntityNotFoundException()));
            return Optional.of(usersRepository.save(users));
        } else throw new RuntimeException("Not founded");
-    }
+    }//done
     @Override
     public List<Users> UsersInChat(ChatRoom chatRoom){
         List<Users> users = usersRepository.findUsersByChatRooms(chatRoom);

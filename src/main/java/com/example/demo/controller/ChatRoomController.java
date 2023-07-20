@@ -12,7 +12,7 @@ public class ChatRoomController {
     @Autowired
     private ChatRoomService chatRoomService;
     @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasAuthority(ROLE_ADMIN)")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public String delete(@PathVariable Long id){
         return chatRoomService.delete(id);
     }

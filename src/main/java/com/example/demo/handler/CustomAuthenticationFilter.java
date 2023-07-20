@@ -32,7 +32,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        String username = request.getParameter("username");
+        String username = request.getParameter("login");
         String password = request.getParameter("password");
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(username, password);
@@ -41,7 +41,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
-        User user = (User) authentication.getPrincipal();
+        User user = (User)authentication.getPrincipal();
         Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
         String access_token = JWT.create()
                 .withSubject(user.getUsername())
@@ -61,7 +61,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         tokens.put("refresh_token", refresh_token);
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), tokens);
-
     }
 
     @Override

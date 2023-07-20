@@ -10,6 +10,8 @@ import com.example.demo.service.get.GetService;
 import com.example.demo.service.user.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
@@ -31,15 +33,12 @@ public class UserController {
     @Autowired
     private GetService getService;
 
-//    @GetMapping("/logout")
-//    public String logout() {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if (authentication != null) {
-//            SecurityContextHolder.getContext().setAuthentication(null);
-//        }
-//        getService.getCurrentUser().setOnline(false);
-//        return "Logged out";
-//    }//work
+    @GetMapping("/logout")
+    public String logout() {
+        SecurityContextHolder.clearContext();
+        getService.getCurrentUser().setOnline(false);
+        return "Logged out";
+    }//work
 
     @PostMapping("/create")
     public Users create(@RequestBody Users users){
@@ -50,7 +49,8 @@ public class UserController {
         return userService.changeUsername(id, username);
     }
 
-    @DeleteMapping  ("/delete/{id}" )
+    @DeleteMapping("/delete/{id}" )
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public String delete(@PathVariable Long id){//work
         return userService.deleteUser(id);
     }
@@ -61,11 +61,13 @@ public class UserController {
     }
 
     @GetMapping("/findById/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public Optional<Users> findById(@PathVariable Long id){//work
         return  userService.findById(id);
     }
 
-    @GetMapping("/ListAll")
+    @GetMapping("/listAll")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public List<Users> listAll(){//work
         return userService.listAll();
     }
@@ -86,6 +88,7 @@ public class UserController {
     }
 
     @GetMapping("/addRole/{username}/{roleName}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public Users addRole(@PathVariable String username,
                          @PathVariable String roleName){
         return userService.addRoleToUser(username,roleName);
