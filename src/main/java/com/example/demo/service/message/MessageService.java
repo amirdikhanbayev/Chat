@@ -4,6 +4,7 @@ import com.example.demo.dto.MessageDto;
 import com.example.demo.model.Message;
 
 import java.util.List;
+import java.util.concurrent.ScheduledFuture;
 
 
 public interface MessageService {
@@ -18,4 +19,6 @@ public interface MessageService {
     Message creatMessage(String content, String recipient_username);
 
     List<MessageDto> getMyMessages();
+
+   ScheduledFuture<String> delayedMessage(String chatroom, Long min, String content);
 }

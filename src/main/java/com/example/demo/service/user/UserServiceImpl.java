@@ -4,7 +4,6 @@ import com.example.demo.model.ChatRoom;
 import com.example.demo.model.Users;
 import com.example.demo.repository.UsersRepository;
 import com.example.demo.service.chatroom.ChatRoomService;
-import com.example.demo.service.get.GetService;
 import com.example.demo.service.role.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,8 +22,6 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private ChatRoomService chatRoomService;
-    @Autowired
-    private GetService getService;
     @Autowired
     private RoleService roleService;
 
@@ -99,5 +96,6 @@ public class UserServiceImpl implements UserService {
         users.getRoles().add(roleService.findRoleText(roleName).orElseThrow(()-> new EntityNotFoundException("Not found")));
         return usersRepository.save(users);
     }
+
 
 }

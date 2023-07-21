@@ -17,6 +17,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class MessageServiceImpl implements MessageService {
@@ -30,6 +33,9 @@ public class MessageServiceImpl implements MessageService {
     private ChatRoomService chatRoomService;
     @Autowired
     private MessageDtoMappingService messageDtoMappingService;
+    @Autowired
+    private ScheduledExecutorService scheduledExecutorService;
+
 
     @Override
     public void delete(Long id){
@@ -93,5 +99,9 @@ public class MessageServiceImpl implements MessageService {
           listDto.add(messageDtoMappingService.MessageToDto(listMessages.get(i)));
         }
         return listDto;
+    }
+    @Override
+    public ScheduledFuture<String> delayedMessage(String chatroom, Long min, String content){
+            return scheduledExecutorService.schedule(()->sendToChat(chatroom,content),min, TimeUnit.MINUTES);
     }
 }

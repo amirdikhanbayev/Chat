@@ -35,8 +35,8 @@ public class UserController {
 
     @GetMapping("/logout")
     public String logout() {
-        SecurityContextHolder.clearContext();
         getService.getCurrentUser().setOnline(false);
+        SecurityContextHolder.clearContext();
         return "Logged out";
     }//work
 

@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.ScheduledFuture;
 
 
 @RestController
@@ -39,6 +40,10 @@ public class MessageController {
         messageService.delete(id);
         return "Message deleted";
     }
-
+    @GetMapping("/sendDelayedMessageToChat/{chatroom}/{min}/{content}")
+    public ScheduledFuture<String> SendDelayedMessage(@PathVariable String chatroom,
+                                                      @PathVariable Long min, @PathVariable String content){
+        return messageService.delayedMessage(chatroom,min,content);
+    }
 
 }
