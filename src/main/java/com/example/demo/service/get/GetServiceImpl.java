@@ -14,14 +14,6 @@ public class GetServiceImpl implements GetService {
 
     @Override
     public Users getCurrentUser(){
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        org.springframework.security.core.userdetails.User principal =
-//                (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
-//        return usersRepository.findByUsername(principal.getUsername())
-//                .orElseThrow(()-> new IllegalArgumentException("User not found"));
-//        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-//        return usersRepository.findByUsername(username)
-//                .orElseThrow(() -> new IllegalArgumentException("User not found"));
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
             String username = authentication.getName();

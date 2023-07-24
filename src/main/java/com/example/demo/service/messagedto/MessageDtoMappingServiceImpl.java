@@ -3,7 +3,6 @@ package com.example.demo.service.messagedto;
 import com.example.demo.dto.MessageDto;
 import com.example.demo.model.Message;
 import com.example.demo.repository.ChatRoomRepository;
-import com.example.demo.repository.MessageRepository;
 import com.example.demo.service.get.GetService;
 import com.example.demo.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +13,6 @@ import java.time.LocalDateTime;
 
 @Service
 public class MessageDtoMappingServiceImpl implements MessageDtoMappingService {
-    @Autowired
-    private MessageRepository messageRepository;
     @Autowired
     private ChatRoomRepository chatRoomRepository;
     @Autowired

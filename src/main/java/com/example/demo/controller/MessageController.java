@@ -3,11 +3,11 @@ package com.example.demo.controller;
 import com.example.demo.dto.MessageDto;
 import com.example.demo.service.message.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.concurrent.ScheduledFuture;
 
 
 @RestController
@@ -25,7 +25,7 @@ public class MessageController {
 
     @GetMapping("/sendToChat/{chat_name}/{content}")
     public String sendToExistChat(@PathVariable String chat_name,@PathVariable String content){
-        return messageService.sendToChat(chat_name,content);
+        return messageService.sendToChatSep(chat_name,content);
     }
 
     @GetMapping("/getMyMesseges")
@@ -41,9 +41,10 @@ public class MessageController {
         return "Message deleted";
     }
     @GetMapping("/sendDelayedMessageToChat/{chatroom}/{min}/{content}")
-    public ScheduledFuture<String> SendDelayedMessage(@PathVariable String chatroom,
-                                                      @PathVariable Long min, @PathVariable String content){
-        return messageService.delayedMessage(chatroom,min,content);
+    public ResponseEntity<Void> SendDelayedMessage(@PathVariable String chatroom,
+                                                     @PathVariable Long min, @PathVariable String content){
+        messageService.delayedMessage(chatroom,min,content);
+        return ResponseEntity.ok().build();
     }
 
 }

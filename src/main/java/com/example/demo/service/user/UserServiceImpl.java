@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
            users.getChatRooms().add(chatRoom.orElseThrow(()-> new EntityNotFoundException()));
            return Optional.of(usersRepository.save(users));
        } else throw new RuntimeException("Not founded");
-    }//done
+    }
     @Override
     public List<Users> UsersInChat(ChatRoom chatRoom){
         List<Users> users = usersRepository.findUsersByChatRooms(chatRoom);

@@ -18,13 +18,13 @@ public class Users {
 
     @ManyToMany
     @JoinTable(name = "user_chat_room",
-    joinColumns = {@JoinColumn(name = "user_id")}
+            joinColumns = {@JoinColumn(name = "user_id")}
             , inverseJoinColumns = {@JoinColumn(name = "chat_room_id")})
     private List<ChatRoom> chatRooms;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_rols",
-    joinColumns = {@JoinColumn(name = "user_id")}
+            joinColumns = {@JoinColumn(name = "user_id")}
             , inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private Collection<Role> roles;
 
