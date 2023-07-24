@@ -2,9 +2,9 @@ package com.example.demo.service.message;
 
 import com.example.demo.dto.MessageDto;
 import com.example.demo.model.Message;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
-import java.util.concurrent.ScheduledFuture;
 
 
 public interface MessageService {
@@ -14,11 +14,13 @@ public interface MessageService {
 
     MessageDto sendWithNewChat(String recipient_username, String content, String name);
 
-    String sendToChat(String chat_name, String content);
+    String sendToChat(String chat_name, String content, Long currentUserId);
 
-    Message creatMessage(String content, String recipient_username);
+    Message creatMessage(String content, String recipient_username, Long currentUserId);
 
     List<MessageDto> getMyMessages();
 
-   ScheduledFuture<String> delayedMessage(String chatroom, Long min, String content);
+    Mono<Void> delayedMessage(String chatroom, Long min, String content);
+
+    void processMessage(String chatroom, Long min, String content, Long currentUserId);
 }
