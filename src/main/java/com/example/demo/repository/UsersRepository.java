@@ -24,9 +24,5 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
     @Query("UPDATE Users s set s.online = FALSE where s.id = :id")
     void offline(@Param("id") Long id);
 
-//    @Modifying
-//    @Query(value = "SELECT user_id from user_chat_room u where u.chat_room_id = :id", nativeQuery = true)
-//    List<Long> user_id(@Param("id")Long id);
-
     List<Users> findUsersByChatRooms(ChatRoom chatRooms);
 }

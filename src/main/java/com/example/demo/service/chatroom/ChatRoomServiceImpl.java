@@ -4,13 +4,11 @@ import com.example.demo.model.ChatRoom;
 import com.example.demo.model.Users;
 import com.example.demo.repository.ChatRoomRepository;
 import com.example.demo.service.get.GetService;
-import com.example.demo.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ChatRoomServiceImpl implements ChatRoomService {
@@ -26,8 +24,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
         List<Users> users = new ArrayList<>();
         users.add(getService.getCurrentUser());
         users.add(user);
-        chatRoomRepository.save(chat_room);
-        return chat_room;
+        return chatRoomRepository.save(chat_room);
     }
     @Override
     public String delete(Long id){

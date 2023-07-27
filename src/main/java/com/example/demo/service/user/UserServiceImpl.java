@@ -4,13 +4,13 @@ import com.example.demo.model.ChatRoom;
 import com.example.demo.model.Users;
 import com.example.demo.repository.UsersRepository;
 import com.example.demo.service.chatroom.ChatRoomService;
-import com.example.demo.service.get.GetService;
+import com.example.demo.service.role.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +23,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private ChatRoomService chatRoomService;
     @Autowired
-    private GetService getService;
+    private RoleService roleService;
+
 
     @Override
     public Users create(Users user){
@@ -73,16 +74,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Users joinToChatRoom(String chatRoomName){
-       ChatRoom chatRoom = chatRoomService.findByName(chatRoomName);
-       Users users = getService.getCurrentUser();
-       users.getChatRooms().add(chatRoom);
-       return usersRepository.save(users);
-    }
+    public Optional<Users> joinToChatRoom(String chatRoomName){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Users users = usersRepository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException());
+       Optional<ChatRoom> chatRoom = Optional.ofNullable(chatRoomService.findByName(chatRoomName));
+       if(chatRoom.isPresent()){
+           users.getChatRooms().add(chatRoom.orElseThrow(()-> new EntityNotFoundException()));
+           return Optional.of(usersRepository.save(users));
+       } else throw new RuntimeException("Not founded");
+    }//done
     @Override
     public List<Users> UsersInChat(ChatRoom chatRoom){
         List<Users> users = usersRepository.findUsersByChatRooms(chatRoom);
         return users;
     };
+
+    @Override
+    public Users addRoleToUser(String username, String roleName){
+        Users users = usersRepository.findByUsername(username)
+                .orElseThrow(()-> new EntityNotFoundException());
+        users.getRoles().add(roleService.findRoleText(roleName).orElseThrow(()-> new EntityNotFoundException("Not found")));
+        return usersRepository.save(users);
+    }
+
 
 }

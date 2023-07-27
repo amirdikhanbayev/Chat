@@ -1,8 +1,6 @@
 package com.example.demo.model;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
@@ -19,10 +17,14 @@ public class Users {
 
     @ManyToMany
     @JoinTable(name = "user_chat_room",
-    joinColumns = {@JoinColumn(name = "user_id")}
+            joinColumns = {@JoinColumn(name = "user_id")}
             , inverseJoinColumns = {@JoinColumn(name = "chat_room_id")})
     private List<ChatRoom> chatRooms;
-//    @ManyToMany(mappedBy = "users")
-//    private List<ChatRoom> chatRooms;
+
+    @ManyToMany
+    @JoinTable(name = "users_rols",
+            joinColumns = {@JoinColumn(name = "user_id")}
+            , inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    private List<Role> roles;
 
 }

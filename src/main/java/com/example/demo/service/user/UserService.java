@@ -27,8 +27,10 @@ public interface UserService {
     List<Users> listAllOnline(boolean online);
 
 
-    Users joinToChatRoom(String chatRoomName);
+    Optional<Users> joinToChatRoom(String chatRoomName);
 
 
     List<Users> UsersInChat(ChatRoom chatRoom);
+
+    Users addRoleToUser(String username, String roleName);
 }

@@ -1,5 +1,6 @@
-package com.example.demo.dto;
+package com.example.demo.service.messagedto;
 
+import com.example.demo.dto.MessageDto;
 import com.example.demo.model.Message;
 import com.example.demo.repository.ChatRoomRepository;
 import com.example.demo.repository.MessageRepository;
