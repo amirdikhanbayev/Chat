@@ -22,6 +22,7 @@ public class Users {
             , inverseJoinColumns = {@JoinColumn(name = "chat_room_id")})
     private List<ChatRoom> chatRooms;
 
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_rols",
             joinColumns = {@JoinColumn(name = "user_id")}
