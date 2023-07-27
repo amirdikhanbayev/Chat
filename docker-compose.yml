@@ -1,0 +1,20 @@
+version: '3'
+services:
+  application:
+    container_name: amirs-chat
+    image: tk/application
+    build: .
+    env_file: docset.env
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres
+
+  postgres:
+    container_name: pgdbnew
+    image: postgres:12-3-alpine
+    ports:
+      - "5435:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456

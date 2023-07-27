@@ -24,13 +24,12 @@ public class ChatRoomServiceImpl implements ChatRoomService {
         List<Users> users = new ArrayList<>();
         users.add(getService.getCurrentUser());
         users.add(user);
-        chat_room.setUsers(users);
         return chatRoomRepository.save(chat_room);
     }
     @Override
     public String delete(Long id){
         chatRoomRepository.deleteById(id);
-        return "User has been deleted";
+        return "ChatRoom has been deleted";
     }
     @Override
     public ChatRoom findByName(String name){
@@ -42,12 +41,5 @@ public class ChatRoomServiceImpl implements ChatRoomService {
         chat_room.setName(name);
         return chatRoomRepository.save(chat_room);
     }
-    @Override
-    public List<Users> ListUserInChat(String chatName){
-        ChatRoom chatRoom = findByName(chatName);
-        List<Users> users = chatRoom.getUsers();
-        return users;
-    }
-
 
 }

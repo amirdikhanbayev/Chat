@@ -1,11 +1,10 @@
 package com.example.demo.repository;
 
-import com.example.demo.model.ChatRoom;
+import com.example.demo.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-
 @Repository
-public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
-    ChatRoom findByName(String name);
+public interface RoleRepository extends JpaRepository<Role, Long> {
+    Role findAllByRole(String role);
 }
