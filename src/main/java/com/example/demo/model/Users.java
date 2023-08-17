@@ -14,7 +14,7 @@ public class Users {
     private Long id;
     private String username;
     private String password;
-    private Boolean online;
+    private boolean online;
 
     @ManyToMany
     @JoinTable(name = "user_chat_room",
