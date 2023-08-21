@@ -42,9 +42,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/logout").permitAll()
                 .antMatchers("/users/token/refresh").permitAll()
                 .antMatchers("/login").permitAll()
-                .antMatchers("/users/changeUsername").permitAll()
-                .antMatchers("/users/findByUsername").permitAll()
-                .antMatchers("/users/allOnline").permitAll()
                 .antMatchers("/users/me").permitAll();
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));

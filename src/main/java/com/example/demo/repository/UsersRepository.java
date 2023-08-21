@@ -16,11 +16,11 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
     Optional<Users> findByUsername(String username);
 
     List<Users> findByOnline(boolean online);
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Query("UPDATE Users s set s.online = TRUE where s.id = :id")
     void online(@Param("id") Long id);
 
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Query("UPDATE Users s set s.online = FALSE where s.id = :id")
     void offline(@Param("id") Long id);
 

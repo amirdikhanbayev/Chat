@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import javax.persistence.EntityNotFoundException;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @DataJpaTest
 class UsersRepositoryTest {
@@ -37,7 +35,7 @@ class UsersRepositoryTest {
     @Test
     void offline() {
         Users user = new Users();
-        user.setId(2L);
+        user.setId(1L);
         user.setUsername("user2");
         user.setPassword("password1");
         user.setOnline(true);
@@ -45,7 +43,7 @@ class UsersRepositoryTest {
 
         usersRepository.offline(user.getId());
 
-        Users updatedUser = usersRepository.findById(user.getId()).orElseThrow(EntityNotFoundException::new);
+        Users updatedUser = usersRepository.findById(user.getId()).orElse(null);
         assertThat(updatedUser).isNotNull();
         assertThat(updatedUser.isOnline()).isFalse();
     }

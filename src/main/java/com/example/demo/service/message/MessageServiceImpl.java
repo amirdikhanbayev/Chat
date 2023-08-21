@@ -41,21 +41,19 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public MessageDto sendWithNewChat(String recipientUsername, String content, String name) {
-        Message message = creatMessage(content, recipientUsername, null);
-        Optional<Users> recipient = userService.findByUsername(recipientUsername);
-        if (recipient.isPresent()) {
-            ChatRoom chatRoom = chatRoomService.create(name, recipient
-                    .orElseThrow(() -> new EntityNotFoundException("No chatroom")));
-            message.setChatRoom(chatRoom);
-            recipient.get().getChatRooms().add(chatRoom);
-            messageRepository.save(message);
-            return messageDtoMappingService.MessageToDto(message);
-        } else throw new EntityNotFoundException("No entity");
+        Message message = creatMessage(content, recipientUsername);
+        Users recipient = userService.findByUsername(recipientUsername)
+                .orElseThrow(EntityNotFoundException::new);
+        ChatRoom chatRoom = chatRoomService.create(name);
+        message.setChatRoom(chatRoom);
+        recipient.getChatRooms().add(chatRoom);
+        messageRepository.save(message);
+        return messageDtoMappingService.MessageToDto(message);
     }
 
     @Override
     @Transactional
-    public String sendToChat(String chatName, String content, Long currentUserId) {
+    public String sendToChat(String chatName, String content) {
         List<Users> users = userService.UsersInChat(
                 chatRoomService.findByName(chatName));
         if (users.isEmpty()) {
@@ -64,11 +62,12 @@ public class MessageServiceImpl implements MessageService {
         for (int i = 0; i < users.size(); i++) {
             String username = users.get(i).getUsername();
             Message message;
-            message = creatMessage(content, username, currentUserId);
+            message = creatMessage(content, username);
             message.setChatRoom(chatRoomService.findByName(chatName));
             messageRepository.save(message);
         }
         return "Messages sanded";
+
     }
     @Override
     public String sendToChatSep(String chatName, String content) {
@@ -80,29 +79,24 @@ public class MessageServiceImpl implements MessageService {
         for (int i = 0; i < users.size(); i++) {
             String username = users.get(i).getUsername();
             Message message;
-            message = creatMessage(content, username, getService.getCurrentUser().getId());
+            message = creatMessage(content, username);
             message.setChatRoom(chatRoomService.findByName(chatName));
             messageRepository.save(message);
         }
         return "Messages sanded";
     }
 
-
     @Override
-    public Message creatMessage(String content, String recipientUsername, Long currentUserId) {
+    public Message creatMessage(String content, String recipientUsername) {
         Message message = new Message();
-        message.setSender(Optional.ofNullable(getService.getCurrentUser()).orElse(
-                userService.findById(currentUserId).orElseThrow(EntityNotFoundException::new)));
+        message.setSender(getService.getCurrentUser());
         Optional<Users> recipient = userService.findByUsername(recipientUsername);
-        if (recipient.isPresent()) {
             message.setRecipient(recipient
                     .orElseThrow(() -> new EntityNotFoundException("NaN")));
-            Optional.ofNullable(getService.getCurrentUser()).
-                    orElse(userService.findById(currentUserId).orElseThrow(()-> new EntityNotFoundException())).setOnline(true);
+            getService.getCurrentUser().setOnline(true);
             message.setContent(content);
             message.setDatetime(LocalDateTime.now());
             return message;
-        } else throw new RuntimeException("Entity not found");
     }
 
     @Override
@@ -121,25 +115,24 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public Mono<Void> delayedMessage(String chatroom, Long min, String content) {
-        Long currentUserId = getService.getCurrentUser().getId();
-        return completableFutureProcess(chatroom, min, content, currentUserId);
+        return completableFutureProcess(chatroom, min, content);
     }
 
-    private Mono<Void> completableFutureProcess(String chatroom, Long min, String content, Long currentUserId) {
+    private Mono<Void> completableFutureProcess(String chatroom, Long min, String content) {
         CompletableFuture<Void> voidMethod = CompletableFuture.runAsync(() -> {
-                    processMessage(chatroom, min, content, currentUserId);
+                    processMessage(chatroom, min, content);
                 }
         );
         return Mono.fromFuture(voidMethod);
     }
 
-    public void processMessage(String chatroom, Long min, String content, Long currentUserId) {
+    public void processMessage(String chatroom, Long min, String content) {
         try {
             TimeUnit.MINUTES.sleep(min);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
 
-        sendToChat(chatroom, content, currentUserId);
+        sendToChat(chatroom, content);
     }
 }

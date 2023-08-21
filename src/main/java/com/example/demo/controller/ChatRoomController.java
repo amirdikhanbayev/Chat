@@ -17,8 +17,8 @@ public class ChatRoomController {
         return chatRoomService.delete(id);
     }
 
-    @GetMapping("changeName/{name}")
-    public ChatRoom changeName(@PathVariable String name){
-        return chatRoomService.changeName(name);
+    @GetMapping("changeName/{name}/{newName}")
+    public ChatRoom changeName(@PathVariable String name, @PathVariable String newName){
+        return chatRoomService.changeName(name, newName);
     }
 }
