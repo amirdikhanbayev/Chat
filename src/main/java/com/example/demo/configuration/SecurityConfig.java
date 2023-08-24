@@ -1,5 +1,7 @@
-package com.example.demo.handler;
+package com.example.demo.configuration;
 
+import com.example.demo.handler.CustomAuthenticationFilter;
+import com.example.demo.handler.CustomAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,6 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/logout").permitAll()
                 .antMatchers("/users/token/refresh").permitAll()
                 .antMatchers("/login").permitAll()
+                .antMatchers("/users/create").permitAll()
                 .antMatchers("/users/me").permitAll();
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
